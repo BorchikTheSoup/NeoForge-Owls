@@ -1,5 +1,11 @@
 package net.borchik.borchiksowls;
 
+import net.borchik.borchiksowls.entity.ModEntities;
+import net.borchik.borchiksowls.entity.client.BrownOwlRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -33,11 +39,19 @@ public class OwlsMod {
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
 
+        ModEntities.register(modEventBus);
+
+
+
+
+
+
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
@@ -53,5 +67,15 @@ public class OwlsMod {
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
 
+    }
+
+    @EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
+    public static class ClientModEvents {
+        @SubscribeEvent
+        public static void onClientSetup(FMLClientSetupEvent event) {
+
+
+            EntityRenderers.register(ModEntities.BROWN_OWL.get(), BrownOwlRenderer::new);
+        }
     }
 }
