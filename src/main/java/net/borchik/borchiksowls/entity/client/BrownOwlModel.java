@@ -108,7 +108,10 @@ public class BrownOwlModel<T extends BrownOwlEntity> extends HierarchicalModel<T
         this.applyHeadRotation(netHeadYaw, headPitch);
 
         this.animateWalk(BrownOwlAnimations.BROWN_OWL_WALK, limbSwing, limbSwingAmount, 2f, 2.5f);
-        this.animate(entity.idleAnimationState, BrownOwlAnimations.BROWN_OWL_WALK, ageInTicks, 1f);
+        this.animate(entity.walkingAnimationState, BrownOwlAnimations.BROWN_OWL_WALK, ageInTicks, 1f);
+
+        this.animateWalk(BrownOwlAnimations.BROWN_OWL_FLYING, limbSwing, limbSwingAmount, 2f, 2f);
+        this.animate(entity.flyingAnimationState, BrownOwlAnimations.BROWN_OWL_FLYING, ageInTicks, 1f);
     }
 
     private void applyHeadRotation(float headYaw, float headPitch) {

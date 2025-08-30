@@ -25,7 +25,7 @@ public class BrownOwlRenderer extends MobRenderer<BrownOwlEntity, BrownOwlModel<
             poseStack.scale(0.5f, 0.5f, 0.5f);
         } else
         {
-            poseStack.scale(1f, 1f, 1f);
+            poseStack.scale(1.2f, 1.2f, 1.2f);
         }
     }
 
