@@ -3,7 +3,7 @@ package net.borchik.borchiksowls.entity.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.borchik.borchiksowls.OwlsMod;
-import net.borchik.borchiksowls.entity.custom.BrownOwlEntity;
+import net.borchik.borchiksowls.entity.custom.OwlEntity;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -12,7 +12,7 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-public class BrownOwlModel<T extends BrownOwlEntity> extends HierarchicalModel<T> {
+public class OwlModel<T extends OwlEntity> extends HierarchicalModel<T> {
 
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(OwlsMod.MOD_ID, "brown_owl"), "main");
@@ -29,7 +29,7 @@ public class BrownOwlModel<T extends BrownOwlEntity> extends HierarchicalModel<T
     private final ModelPart wing_right;
     private final ModelPart wing_left;
 
-    public BrownOwlModel(ModelPart root) {
+    public OwlModel(ModelPart root) {
         this.Body = root.getChild("Body");
         this.main = this.Body.getChild("main");
         this.tail = this.main.getChild("tail");
@@ -103,15 +103,15 @@ public class BrownOwlModel<T extends BrownOwlEntity> extends HierarchicalModel<T
     }
 
     @Override
-    public void setupAnim(BrownOwlEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(OwlEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.root().getAllParts().forEach(ModelPart::resetPose);
         this.applyHeadRotation(netHeadYaw, headPitch);
 
-        this.animateWalk(BrownOwlAnimations.BROWN_OWL_WALK, limbSwing, limbSwingAmount, 2f, 2.5f);
-        this.animate(entity.walkingAnimationState, BrownOwlAnimations.BROWN_OWL_WALK, ageInTicks, 1f);
+        this.animateWalk(OwlAnimations.OWL_WALK, limbSwing, limbSwingAmount, 2f, 2.5f);
+        this.animate(entity.walkingAnimationState, OwlAnimations.OWL_WALK, ageInTicks, 1f);
 
-        this.animateWalk(BrownOwlAnimations.BROWN_OWL_FLYING, limbSwing, limbSwingAmount, 2f, 2f);
-        this.animate(entity.flyingAnimationState, BrownOwlAnimations.BROWN_OWL_FLYING, ageInTicks, 1f);
+        this.animateWalk(OwlAnimations.OWL_FLYING, limbSwing, limbSwingAmount, 2f, 2f);
+        this.animate(entity.flyingAnimationState, OwlAnimations.OWL_FLYING, ageInTicks, 1f);
     }
 
     private void applyHeadRotation(float headYaw, float headPitch) {

@@ -5,8 +5,8 @@ import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.animation.Keyframe;
 import net.minecraft.client.animation.KeyframeAnimations;
 
-public class BrownOwlAnimations {
-    public static final AnimationDefinition BROWN_OWL_WALK = AnimationDefinition.Builder.withLength(0.5F)
+public class OwlAnimations {
+    public static final AnimationDefinition OWL_WALK = AnimationDefinition.Builder.withLength(0.5F)
             .addAnimation("fluff", new AnimationChannel(AnimationChannel.Targets.ROTATION,
                     new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
                     new Keyframe(0.5F, KeyframeAnimations.degreeVec(1.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR)
@@ -55,7 +55,7 @@ public class BrownOwlAnimations {
             ))
             .build();
 
-    public static final AnimationDefinition BROWN_OWL_FLYING = AnimationDefinition.Builder.withLength(0.25F)
+    public static final AnimationDefinition OWL_FLYING = AnimationDefinition.Builder.withLength(0.25F)
             .addAnimation("wing_right", new AnimationChannel(AnimationChannel.Targets.ROTATION,
                     new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 5.0F), AnimationChannel.Interpolations.LINEAR),
                     new Keyframe(0.125F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 70.0F), AnimationChannel.Interpolations.LINEAR),

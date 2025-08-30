@@ -1,7 +1,7 @@
 package net.borchik.borchiksowls;
 
 import net.borchik.borchiksowls.entity.ModEntities;
-import net.borchik.borchiksowls.entity.client.BrownOwlRenderer;
+import net.borchik.borchiksowls.entity.client.OwlRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -75,7 +75,7 @@ public class OwlsMod {
         public static void onClientSetup(FMLClientSetupEvent event) {
 
 
-            EntityRenderers.register(ModEntities.BROWN_OWL.get(), BrownOwlRenderer::new);
+            EntityRenderers.register(ModEntities.OWL.get(), OwlRenderer::new);
         }
     }
 }

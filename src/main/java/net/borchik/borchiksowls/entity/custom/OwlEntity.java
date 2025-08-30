@@ -1,17 +1,22 @@
 package net.borchik.borchiksowls.entity.custom;
 
 import net.borchik.borchiksowls.entity.ModEntities;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.AnimationState;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
@@ -21,16 +26,18 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.FlyingAnimal;
+import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import org.checkerframework.checker.units.qual.A;
 import org.jetbrains.annotations.Nullable;
 
-public class BrownOwlEntity extends Animal implements FlyingAnimal {
+public class OwlEntity extends Animal implements FlyingAnimal {
 
     public float flap;
     public float flapSpeed;
@@ -45,9 +52,10 @@ public class BrownOwlEntity extends Animal implements FlyingAnimal {
     public final AnimationState flyingAnimationState = new AnimationState();
     private int flyingAnimationTimeout = 0;
 
+    private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(OwlEntity.class, EntityDataSerializers.INT);
 
 
-    public BrownOwlEntity(EntityType<? extends Animal> entityType, Level level) {
+    public OwlEntity(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
         this.moveControl = new FlyingMoveControl(this, 10, false);
     }
@@ -56,7 +64,7 @@ public class BrownOwlEntity extends Animal implements FlyingAnimal {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new PanicGoal(this,2));
-        this.goalSelector.addGoal(2, new BrownOwlEntity.OwlWanderGoal(this, 3.0));
+        this.goalSelector.addGoal(2, new OwlEntity.OwlWanderGoal(this, 3.0));
         this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 0.5d));
         this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 5f));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
@@ -114,7 +122,7 @@ public class BrownOwlEntity extends Animal implements FlyingAnimal {
 
     @Override
     public @Nullable AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
-        return ModEntities.BROWN_OWL.get().create(level());
+        return ModEntities.OWL.get().create(level());
     }
 
     public void setupanimationstates(){
@@ -128,7 +136,7 @@ public class BrownOwlEntity extends Animal implements FlyingAnimal {
             }
         }
 
-        if(onGround() && walkDist <0) {
+        if(onGround() && walkDist > 0) {
             if (this.walkingAnimationTimeout <= 0) {
                 this.walkingAnimationTimeout = 10;
                 this.walkingAnimationState.start(this.tickCount);
@@ -225,5 +233,54 @@ public class BrownOwlEntity extends Animal implements FlyingAnimal {
         if(this.level().isClientSide()) {
                 this.setupanimationstates();
         }
+    }
+
+
+    /* VARIANTS */
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(VARIANT,0);
+    }
+
+    private int getTypeVariant() {
+        return this.entityData.get(VARIANT);
+    }
+
+    public OwlVariant getVariant() {
+        return  OwlVariant.byId(this.getTypeVariant() & 255);
+    }
+
+
+    private void setVariant(OwlVariant variant) {
+        this.entityData.set(VARIANT, variant.getId() & 255);
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putInt("Variant", this.getTypeVariant());
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        this.entityData.set(VARIANT, compound.getInt("Variant"));
+    }
+
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
+
+        Holder<Biome> holder = level.getBiome(this.blockPosition());
+        if (level.getBiome(this.blockPosition()).is(BiomeTags.SPAWNS_SNOW_FOXES)) {
+            OwlVariant variant = OwlVariant.byId(2);
+            this.setVariant(variant);
+        }
+        else {
+            OwlVariant variant = OwlVariant.byId(1);
+        }
+
+        return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
     }
 }
