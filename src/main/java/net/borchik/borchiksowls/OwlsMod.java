@@ -2,7 +2,10 @@ package net.borchik.borchiksowls;
 
 import net.borchik.borchiksowls.entity.ModEntities;
 import net.borchik.borchiksowls.entity.client.OwlRenderer;
+import net.borchik.borchiksowls.item.custom.ModItems;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
@@ -39,6 +42,7 @@ public class OwlsMod {
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
 
+        ModItems.register(modEventBus);
         ModEntities.register(modEventBus);
 
 
@@ -60,7 +64,9 @@ public class OwlsMod {
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
-
+    if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
+            event.accept(ModItems.OWL_SPAWN_EGG);
+    }
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

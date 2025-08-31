@@ -123,6 +123,7 @@ public class OwlEntity extends Animal implements FlyingAnimal {
     @Override
     public @Nullable AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
         return ModEntities.OWL.get().create(level());
+
     }
 
     public void setupanimationstates(){
@@ -236,6 +237,8 @@ public class OwlEntity extends Animal implements FlyingAnimal {
     }
 
 
+
+
     /* VARIANTS */
 
     @Override
@@ -284,3 +287,5 @@ public class OwlEntity extends Animal implements FlyingAnimal {
         return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
     }
 }
+
+
