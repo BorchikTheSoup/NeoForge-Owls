@@ -1,6 +1,7 @@
 package net.borchik.borchiksowls;
 
 import net.borchik.borchiksowls.entity.ModEntities;
+import net.borchik.borchiksowls.entity.client.ElfOwlRenderer;
 import net.borchik.borchiksowls.entity.client.OwlRenderer;
 import net.borchik.borchiksowls.item.custom.ModItems;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -46,10 +47,6 @@ public class OwlsMod {
         ModEntities.register(modEventBus);
 
 
-
-
-
-
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
@@ -66,6 +63,7 @@ public class OwlsMod {
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
     if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
             event.accept(ModItems.OWL_SPAWN_EGG);
+            event.accept(ModItems.Elf_OWL_EGG);
     }
     }
 
@@ -82,6 +80,8 @@ public class OwlsMod {
 
 
             EntityRenderers.register(ModEntities.OWL.get(), OwlRenderer::new);
+            EntityRenderers.register(ModEntities.ELF_OWL.get(), ElfOwlRenderer::new);
+
         }
     }
 }

@@ -1,4 +1,7 @@
 {
   "entity.mccourse.owl": "Owl",
-  "item.borchiksowls.owl_spawn_egg": "Owl Spawn Egg"
+  "item.borchiksowls.owl_spawn_egg": "Owl Spawn Egg",
+
+  "entity.mccourse.elf_owl": "Elf Owl",
+  "item.borchiksowls.elf_owl_spawn_egg": "Elf Owl Spawn Egg"
 }

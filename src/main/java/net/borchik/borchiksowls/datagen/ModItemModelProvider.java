@@ -15,5 +15,6 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
 
         withExistingParent(ModItems.OWL_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.Elf_OWL_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
     }
 }
