@@ -16,7 +16,7 @@ public static final DeferredItem OWL_SPAWN_EGG = ITEMS.register("owl_spawn_egg",
         ()-> new DeferredSpawnEggItem(ModEntities.OWL, 0x5b453c, 0x3a2212,
                 new Item.Properties()));
 public static final DeferredItem Elf_OWL_EGG = ITEMS.register("elf_owl_spawn_egg",
-        ()-> new DeferredSpawnEggItem(ModEntities.ELF_OWL, 0x5b453c, 0x3a2212,
+        ()-> new DeferredSpawnEggItem(ModEntities.ELF_OWL, 0x5947143, 0xB69365,
                 new Item.Properties()));
 
     public static void register(IEventBus eventBus) {

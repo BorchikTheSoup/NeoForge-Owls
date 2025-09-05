@@ -1,5 +1,7 @@
 package net.borchik.borchiksowls;
 
+import net.borchik.borchiksowls.block.ModBlocks;
+import net.borchik.borchiksowls.block.entity.ModBlockEntities;
 import net.borchik.borchiksowls.entity.ModEntities;
 import net.borchik.borchiksowls.entity.client.ElfOwlRenderer;
 import net.borchik.borchiksowls.entity.client.OwlRenderer;
@@ -44,7 +46,9 @@ public class OwlsMod {
         NeoForge.EVENT_BUS.register(this);
 
         ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
         ModEntities.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
 
 
         // Register the item to a creative tab
@@ -65,6 +69,12 @@ public class OwlsMod {
             event.accept(ModItems.OWL_SPAWN_EGG);
             event.accept(ModItems.Elf_OWL_EGG);
     }
+
+    if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS) {
+        event.accept(ModBlocks.OAK_OWL_NEST);
+
+    }
+
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

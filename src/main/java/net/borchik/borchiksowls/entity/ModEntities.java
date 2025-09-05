@@ -21,7 +21,7 @@ public class ModEntities {
 
     public static final Supplier<EntityType<ElfOwlEntity>> ELF_OWL =
             ENTITY_TYPES.register("elf_owl", ()-> EntityType.Builder.of(ElfOwlEntity::new, MobCategory.CREATURE).
-                    sized(0.5f, 0.5f).build("elf_owl"));
+                    sized(0.3f, 0.4f).build("elf_owl"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
